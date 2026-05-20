@@ -155,16 +155,19 @@ document.addEventListener('DOMContentLoaded', () => {
         const width = window.innerWidth;
         
         // Number of flowers to generate based on screen width
-        const flowerCount = width < 500 ? 5 : 9;
+        const flowerCount = width < 500 ? 15 : 35;
         
-        // Dynamic horizontal layout
+        // Dynamic layout for a bed of flowers
         for (let i = 0; i < flowerCount; i++) {
-            // Determine X coordinate evenly spaced with random offset
-            const segment = width / (flowerCount + 1);
-            const x = segment * (i + 1) + (seededRandom() - 0.5) * (segment * 0.4);
+            // Random horizontal scattered position across screen
+            const x = (seededRandom() * width * 1.2) - (width * 0.1);
             
-            // Flower height varying beautifully
-            const height = 150 + seededRandom() * 150 + (width < 500 ? -40 : 0);
+            // Create depth layers (0 to 1) for the bed effect
+            const depth = seededRandom();
+            const scale = 0.5 + (depth * 0.7); // 0.5x to 1.2x scale
+            
+            // Flower height varying beautifully, scaled by depth
+            const height = (180 + seededRandom() * 200 + (width < 500 ? -20 : 0)) * scale;
             
             // Slightly offset sway speed and delay for a natural wind feel
             const swayDuration = 5 + seededRandom() * 4;
@@ -177,11 +180,15 @@ document.addEventListener('DOMContentLoaded', () => {
             const flowerDiv = document.createElement('div');
             flowerDiv.className = 'flower-stem-group';
             flowerDiv.style.left = `${x}px`;
-            flowerDiv.style.bottom = `-10px`;
+            
+            // Spread them vertically across the bottom area (-30px to 80px)
+            const bottomPos = -30 + (depth * 110);
+            flowerDiv.style.bottom = `${bottomPos}px`;
+            flowerDiv.style.zIndex = Math.floor(depth * 10);
             flowerDiv.style.animation = `sway ${swayDuration}s ease-in-out infinite alternate`;
             flowerDiv.style.animationDelay = `${swayDelay}s`;
             
-            flowerDiv.innerHTML = flowerSVG;
+            flowerDiv.innerHTML = `<div style="transform: scale(${scale}); transform-origin: bottom center;">${flowerSVG}</div>`;
             flowersContainer.appendChild(flowerDiv);
         }
     }
@@ -206,7 +213,7 @@ document.addEventListener('DOMContentLoaded', () => {
                              theme === 'daisies' ? 12 + Math.floor(fRandom() * 6) : 
                              theme === 'roses' ? 6 : 5; // Layered for roses
                              
-        const flowerSize = 35 + fRandom() * 20;
+        const flowerSize = 55 + fRandom() * 35;
         const bloomDelay = 0.2 + index * 0.15;
 
         // Custom flower parts based on theme
@@ -426,13 +433,13 @@ document.addEventListener('DOMContentLoaded', () => {
         reset() {
             this.x = Math.random() * canvas.width;
             this.y = canvas.height + 20;
-            this.size = 1 + Math.random() * 2.5;
+            this.size = 2 + Math.random() * 4;
             this.speedY = -(0.3 + Math.random() * 0.7);
             this.speedX = (Math.random() - 0.5) * 0.5;
             this.alpha = 0;
             this.fadeInSpeed = 0.01 + Math.random() * 0.02;
             this.fadeOutSpeed = 0.005 + Math.random() * 0.015;
-            this.maxAlpha = 0.3 + Math.random() * 0.5;
+            this.maxAlpha = 0.6 + Math.random() * 0.4;
             this.isFadingIn = true;
             // Warm magical glow colors
             this.hue = Math.random() > 0.5 ? 45 : 340; // Gold or Blush Pink
@@ -461,8 +468,8 @@ document.addEventListener('DOMContentLoaded', () => {
         draw() {
             ctx.save();
             ctx.globalAlpha = this.alpha;
-            ctx.shadowBlur = this.size * 4;
-            ctx.shadowColor = `hsla(${this.hue}, 100%, 75%, 0.8)`;
+            ctx.shadowBlur = this.size * 8;
+            ctx.shadowColor = `hsla(${this.hue}, 100%, 75%, 1)`;
             ctx.fillStyle = `hsla(${this.hue}, 100%, 85%, 1)`;
             ctx.beginPath();
             ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
@@ -541,7 +548,7 @@ document.addEventListener('DOMContentLoaded', () => {
         petals = [];
         
         // Spawn Fireflies
-        const fireflyCount = window.innerWidth < 500 ? 15 : 30;
+        const fireflyCount = window.innerWidth < 500 ? 40 : 80;
         for (let i = 0; i < fireflyCount; i++) {
             particles.push(new Firefly());
         }
