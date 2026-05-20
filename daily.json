@@ -1,10 +1,10 @@
 {
   "date": "2026-05-19",
-  "message": "Mitsy, mi amor, cada pétalo de cerezo que florece me recuerda la delicadeza y la belleza etérea de tu amor. Eres el poema más hermoso que mi corazón ha escrito.",
-  "flowerTheme": "cherry_blossoms",
+  "message": "En cada amanecer, mi corazón te busca; en cada noche, mis sueños te abrazan. Eres el dulce susurro que da vida a mi alma, mi amada Mitsy.",
+  "flowerTheme": "roses",
   "colorScheme": {
-    "primary": "#FADADD",
-    "secondary": "#FDF5E6",
-    "accent": "#FFB6C1"
+    "primary": "#B7094C",
+    "secondary": "#FFC0CB",
+    "accent": "#FDF0D5"
   }
 }
