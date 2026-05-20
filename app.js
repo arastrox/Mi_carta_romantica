@@ -155,7 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const width = window.innerWidth;
         
         // Number of flowers to generate based on screen width
-        const flowerCount = width < 500 ? 15 : 35;
+        const flowerCount = width < 500 ? 30 : 55;
         
         // Dynamic layout for a bed of flowers
         for (let i = 0; i < flowerCount; i++) {
@@ -164,10 +164,10 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // Create depth layers (0 to 1) for the bed effect
             const depth = seededRandom();
-            const scale = 0.5 + (depth * 0.7); // 0.5x to 1.2x scale
+            const scale = 0.5 + (depth * 0.8); // 0.5x to 1.3x scale
             
-            // Flower height varying beautifully, scaled by depth
-            const height = (180 + seededRandom() * 200 + (width < 500 ? -20 : 0)) * scale;
+            // Make some flowers extremely tall to cover the top space
+            const height = (250 + seededRandom() * 450) * scale;
             
             // Slightly offset sway speed and delay for a natural wind feel
             const swayDuration = 5 + seededRandom() * 4;
