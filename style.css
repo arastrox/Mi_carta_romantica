@@ -404,17 +404,39 @@ body.letter-open #flowers-container {
     z-index: 1;
 }
 
+@keyframes pullOutAndDrop {
+    0% {
+        transform: translateY(0);
+        height: 94%;
+        z-index: 2;
+    }
+    45% {
+        transform: translateY(calc(-100% - 20px));
+        height: 94%;
+        z-index: 2;
+    }
+    50% {
+        transform: translateY(calc(-100% - 20px));
+        height: 94%;
+        z-index: 10;
+    }
+    100% {
+        transform: translateY(20px);
+        height: min(75vh, 600px);
+        z-index: 10;
+    }
+}
+
 .envelope-wrapper.open .letter {
-    transform: translateY(calc(-40vh + 30px));
-    /* Fluid height for the letter when opened */
-    height: min(80vh, 600px);
-    z-index: 10;
+    transition: none; /* override default transitions */
+    animation: pullOutAndDrop 1.8s cubic-bezier(0.25, 1, 0.4, 1) forwards;
     box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6), 
                 inset 0 0 60px rgba(139, 38, 62, 0.05);
 }
 
 .envelope-wrapper.open .letter-content {
     opacity: 1;
+    transition: opacity 0.8s ease 1.0s; /* wait for drop to show text */
 }
 
 .envelope-wrapper.open .wax-seal {
@@ -465,8 +487,10 @@ body.letter-open #flowers-container {
 
 /* Small adjustments for very tall/narrow screens */
 @media (max-aspect-ratio: 1/2) {
-    .envelope-wrapper.open .letter {
-        transform: translateY(calc(-35vh + 20px));
-        height: 70vh;
+    @keyframes pullOutAndDrop {
+        0% { transform: translateY(0); height: 94%; z-index: 2; }
+        45% { transform: translateY(calc(-100% - 20px)); height: 94%; z-index: 2; }
+        50% { transform: translateY(calc(-100% - 20px)); height: 94%; z-index: 10; }
+        100% { transform: translateY(30px); height: 65vh; z-index: 10; }
     }
 }
