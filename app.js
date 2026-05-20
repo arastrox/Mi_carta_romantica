@@ -351,15 +351,17 @@ document.addEventListener('DOMContentLoaded', () => {
                           stroke-linecap="round" />
                     
                     <!-- Flower Head with bloom scaling animation -->
-                    <g class="flower-head" transform="translate(${endX}, ${endY})" style="animation-delay: ${bloomDelay}s;">
-                        <!-- Calyx / Base -->
-                        <path d="M-12,-2 C-8,12 8,12 12,-2 L0,-8 Z" fill="${strokeColor}" />
-                        
-                        <!-- Petals -->
-                        <g>${petalsHTML}</g>
-                        
-                        <!-- Center Pistil -->
-                        <g>${flowerCenterHTML}</g>
+                    <g transform="translate(${endX}, ${endY})">
+                        <g class="flower-head" style="animation-delay: ${bloomDelay}s;">
+                            <!-- Calyx / Base -->
+                            <path d="M-12,-2 C-8,12 8,12 12,-2 L0,-8 Z" fill="${strokeColor}" />
+                            
+                            <!-- Petals -->
+                            <g>${petalsHTML}</g>
+                            
+                            <!-- Center Pistil -->
+                            <g>${flowerCenterHTML}</g>
+                        </g>
                     </g>
                 </g>
             </svg>
@@ -430,16 +432,16 @@ document.addEventListener('DOMContentLoaded', () => {
             this.reset();
         }
 
-        reset() {
+            // Spawn randomly across the screen initially, then from bottom when recycled
             this.x = Math.random() * canvas.width;
-            this.y = canvas.height + 20;
+            this.y = Math.random() * canvas.height;
             this.size = 2 + Math.random() * 4;
-            this.speedY = -(0.3 + Math.random() * 0.7);
+            this.speedY = -(0.5 + Math.random() * 1.5); // Move up faster
             this.speedX = (Math.random() - 0.5) * 0.5;
             this.alpha = 0;
             this.fadeInSpeed = 0.01 + Math.random() * 0.02;
-            this.fadeOutSpeed = 0.005 + Math.random() * 0.015;
-            this.maxAlpha = 0.6 + Math.random() * 0.4;
+            this.fadeOutSpeed = 0.001 + Math.random() * 0.003; // Live 5x longer
+            this.maxAlpha = 0.5 + Math.random() * 0.5;
             this.isFadingIn = true;
             // Warm magical glow colors
             this.hue = Math.random() > 0.5 ? 45 : 340; // Gold or Blush Pink
@@ -461,7 +463,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Reset when dead or off screen
             if (this.alpha <= 0 || this.y < -10 || this.x < -10 || this.x > canvas.width + 10) {
-                this.reset();
+                // When recycling, always spawn at bottom
+                this.x = Math.random() * canvas.width;
+                this.y = canvas.height + 20;
+                this.size = 2 + Math.random() * 4;
+                this.speedY = -(0.5 + Math.random() * 1.5);
+                this.speedX = (Math.random() - 0.5) * 0.5;
+                this.alpha = 0;
+                this.fadeInSpeed = 0.01 + Math.random() * 0.02;
+                this.fadeOutSpeed = 0.001 + Math.random() * 0.003;
+                this.maxAlpha = 0.5 + Math.random() * 0.5;
+                this.isFadingIn = true;
+                this.hue = Math.random() > 0.5 ? 45 : 340;
             }
         }
 
