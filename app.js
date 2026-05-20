@@ -114,6 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (isOpened) return;
         isOpened = true;
         envelopeWrapper.classList.add('open');
+        document.body.classList.add('letter-open');
 
         // Play ambient music on first open unless user explicitly muted it
         if (!isMusicPlaying) {

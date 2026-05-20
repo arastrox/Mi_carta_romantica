@@ -1,0 +1,12 @@
+{
+  "name": "mi-carta-romantica",
+  "version": "1.0.0",
+  "description": "Una Cartita Especial Para Ti ❤️",
+  "main": "app.js",
+  "scripts": {
+    "start": "npx serve .",
+    "dev": "npx serve ."
+  },
+  "author": "",
+  "license": "ISC"
+}
