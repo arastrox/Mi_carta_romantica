@@ -432,6 +432,7 @@ document.addEventListener('DOMContentLoaded', () => {
             this.reset();
         }
 
+        reset() {
             // Spawn randomly across the screen initially, then from bottom when recycled
             this.x = Math.random() * canvas.width;
             this.y = Math.random() * canvas.height;
