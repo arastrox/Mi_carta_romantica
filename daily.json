@@ -1,10 +1,10 @@
 {
   "date": "2026-05-19",
-  "message": "En cada amanecer, mi amor por ti florece más fuerte, llenando mi mundo de una luz y una alegría que solo tú puedes traer. Eres el latido de mi corazón, mi hermosa Mitsy.",
-  "flowerTheme": "roses",
+  "message": "Mitsy, mi amor, cada pétalo de cerezo que florece me recuerda la delicadeza y la belleza etérea de tu amor. Eres el poema más hermoso que mi corazón ha escrito.",
+  "flowerTheme": "cherry_blossoms",
   "colorScheme": {
-    "primary": "#B00020",
-    "secondary": "#FFC0CB",
-    "accent": "#FFFDD0"
+    "primary": "#FADADD",
+    "secondary": "#FDF5E6",
+    "accent": "#FFB6C1"
   }
 }
