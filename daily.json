@@ -1,10 +1,10 @@
 {
-  "date": "2026-05-20",
-  "message": "Mitsy, mi amor, cada instante a tu lado es un poema que se escribe en el alma. Eres la melodía que da ritmo a mi corazón y la estrella que guía mis sueños.",
-  "flowerTheme": "roses",
+  "date": "2026-05-25",
+  "message": "Mi amor por ti florece con la delicadeza de los cerezos en primavera, llenando mi mundo de tu belleza y dulzura.",
+  "flowerTheme": "cherry_blossoms",
   "colorScheme": {
-    "primary": "#FFC0CB",
-    "secondary": "#F08080",
-    "accent": "#F5F5DC"
+    "primary": "#FFD1DC",
+    "secondary": "#FDF5E6",
+    "accent": "#C8E6C9"
   }
 }
