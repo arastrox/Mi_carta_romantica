@@ -139,10 +139,24 @@ document.addEventListener('DOMContentLoaded', () => {
         // Generate Procedural Garden based on theme and seed
         generateProceduralGarden(config.flowerTheme, config.colorScheme);
 
-        // Start Canvas Particles (Fireflies & Petals)
+        // Setup CSS Fireflies
+        setupCSSFireflies();
+
+        // Start Canvas Particles (Falling Petals only)
         resizeCanvas();
         initParticles();
         animateParticles();
+    }
+
+    function setupCSSFireflies() {
+        const container = document.createElement('div');
+        container.id = 'css-fireflies-container';
+        for (let i = 0; i < 30; i++) {
+            const f = document.createElement('div');
+            f.className = 'firefly';
+            container.appendChild(f);
+        }
+        document.body.appendChild(container);
     }
 
     /**
@@ -509,71 +523,7 @@ document.addEventListener('DOMContentLoaded', () => {
         generateProceduralGarden(config.flowerTheme, config.colorScheme);
     });
 
-    // Particle Object Templates
-    class Firefly {
-        constructor() {
-            this.reset();
-        }
-
-        reset() {
-            // Spawn randomly across the screen initially, then from bottom when recycled
-            this.x = Math.random() * canvas.width;
-            this.y = Math.random() * canvas.height;
-            this.size = 2 + Math.random() * 4;
-            this.speedY = -(0.5 + Math.random() * 1.5); // Move up faster
-            this.speedX = (Math.random() - 0.5) * 0.5;
-            this.alpha = 0;
-            this.fadeInSpeed = 0.01 + Math.random() * 0.02;
-            this.fadeOutSpeed = 0.001 + Math.random() * 0.003; // Live 5x longer
-            this.maxAlpha = 0.5 + Math.random() * 0.5;
-            this.isFadingIn = true;
-            // Warm magical glow colors
-            this.hue = Math.random() > 0.5 ? 45 : 340; // Gold or Blush Pink
-        }
-
-        update() {
-            this.y += this.speedY;
-            this.x += this.speedX + Math.sin(this.y * 0.01) * 0.2; // Wavy path
-
-            if (this.isFadingIn) {
-                this.alpha += this.fadeInSpeed;
-                if (this.alpha >= this.maxAlpha) {
-                    this.alpha = this.maxAlpha;
-                    this.isFadingIn = false;
-                }
-            } else {
-                this.alpha -= this.fadeOutSpeed;
-            }
-
-            // Reset when dead or off screen
-            if (this.alpha <= 0 || this.y < -10 || this.x < -10 || this.x > canvas.width + 10) {
-                // When recycling, always spawn at bottom
-                this.x = Math.random() * canvas.width;
-                this.y = canvas.height + 20;
-                this.size = 2 + Math.random() * 4;
-                this.speedY = -(0.5 + Math.random() * 1.5);
-                this.speedX = (Math.random() - 0.5) * 0.5;
-                this.alpha = 0;
-                this.fadeInSpeed = 0.01 + Math.random() * 0.02;
-                this.fadeOutSpeed = 0.001 + Math.random() * 0.003;
-                this.maxAlpha = 0.5 + Math.random() * 0.5;
-                this.isFadingIn = true;
-                this.hue = Math.random() > 0.5 ? 45 : 340;
-            }
-        }
-
-        draw() {
-            ctx.save();
-            ctx.globalAlpha = this.alpha;
-            ctx.shadowBlur = this.size * 8;
-            ctx.shadowColor = `hsla(${this.hue}, 100%, 75%, 1)`;
-            ctx.fillStyle = `hsla(${this.hue}, 100%, 85%, 1)`;
-            ctx.beginPath();
-            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.restore();
-        }
-    }
+    // The Firefly class has been replaced by pure CSS fireflies
 
     class FallingPetal {
         constructor(color) {
@@ -641,14 +591,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function initParticles() {
-        particles = [];
         petals = [];
-        
-        // Spawn Fireflies
-        const fireflyCount = window.innerWidth < 500 ? 40 : 80;
-        for (let i = 0; i < fireflyCount; i++) {
-            particles.push(new Firefly());
-        }
+
 
         // Spawn Falling Petals
         const petalColors = [config.colorScheme.primary, config.colorScheme.secondary, '#ffccd5', '#ffb3c1'];
@@ -662,12 +606,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function animateParticles() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         
-        // Update & Draw Fireflies
-        particles.forEach(p => {
-            p.update();
-            p.draw();
-        });
-
         // Update & Draw Petals
         petals.forEach(p => {
             p.update();
