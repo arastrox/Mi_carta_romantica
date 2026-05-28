@@ -235,8 +235,8 @@ document.addEventListener('DOMContentLoaded', () => {
         flowersContainer.innerHTML = ''; // Clear container
         const width = window.innerWidth;
         
-        // Number of flowers to generate based on screen width
-        const flowerCount = width < 500 ? 30 : 55;
+        // Number of flowers to generate based on screen width (Increased by 50%)
+        const flowerCount = width < 500 ? 45 : 85;
         
         // Dynamic layout for a bed of flowers
         for (let i = 0; i < flowerCount; i++) {
@@ -247,8 +247,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const depth = seededRandom();
             const scale = 0.5 + (depth * 0.8); // 0.5x to 1.3x scale
             
-            // Make some flowers extremely tall to cover the top space
-            const height = (250 + seededRandom() * 450) * scale;
+            // Heights are randomized significantly so they cover the screen behind the letter
+            // Base height increased so they reach the top of the envelope
+            const height = (350 + seededRandom() * 650) * scale;
             
             // Slightly offset sway speed and delay for a natural wind feel
             const swayDuration = 5 + seededRandom() * 4;
@@ -262,8 +263,9 @@ document.addEventListener('DOMContentLoaded', () => {
             flowerDiv.className = 'flower-stem-group';
             flowerDiv.style.left = `${x}px`;
             
-            // Spread them vertically across the bottom area (-30px to 80px)
-            const bottomPos = -30 + (depth * 110);
+            // Spread them vertically across the bottom area, but always starting from below the screen
+            // so the stems are never cut off visually in the middle of the screen
+            const bottomPos = -120 + (depth * 80); // -120px to -40px
             flowerDiv.style.bottom = `${bottomPos}px`;
             flowerDiv.style.zIndex = Math.floor(depth * 10);
             flowerDiv.style.animation = `sway ${swayDuration}s ease-in-out infinite alternate`;
