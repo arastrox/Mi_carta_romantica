@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&family=Montserrat:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=5">
+    <link rel="stylesheet" href="style.css?v=6">
 </head>
 <body>
     <!-- Canvas for floating fireflies and falling flower petals -->
@@ -61,14 +61,42 @@
             </div>
         </div>
 
-        <!-- Ambient music controller -->
-        <div class="music-controller" id="music-btn" title="Activar/Desactivar Música">
-            <svg viewBox="0 0 24 24" class="music-icon icon-off" id="music-icon-off">
-                <path d="M4.27 3L3 4.27l9 9v.28c-.53-.34-1.14-.55-1.8-.55C8.36 13 6.8 14.57 6.8 16.5S8.36 20 10.2 20s3.4-1.57 3.4-3.5v-1.92l4.88 4.88 1.27-1.27L4.27 3zM10.2 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM14.2 7h2.8V3h-5.6v2.37l2.8 2.8V7zM18.8 8.63L20 7.42c-.88-.81-2.12-1.32-3.5-1.42v1.54c.78.11 1.49.46 2.3 1.09z" />
-            </svg>
-            <svg viewBox="0 0 24 24" class="music-icon icon-on hidden" id="music-icon-on">
-                <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6zm-2 16c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z" />
-            </svg>
+        <!-- Ambient music controller widget -->
+        <div class="music-widget" id="music-widget">
+            <div class="music-widget-header" id="music-widget-header" title="Activar/Desactivar Música">
+                <div class="music-icon-container" id="music-play-btn">
+                    <svg viewBox="0 0 24 24" class="music-icon icon-off" id="music-icon-off">
+                        <path d="M4.27 3L3 4.27l9 9v.28c-.53-.34-1.14-.55-1.8-.55C8.36 13 6.8 14.57 6.8 16.5S8.36 20 10.2 20s3.4-1.57 3.4-3.5v-1.92l4.88 4.88 1.27-1.27L4.27 3zM10.2 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM14.2 7h2.8V3h-5.6v2.37l2.8 2.8V7zM18.8 8.63L20 7.42c-.88-.81-2.12-1.32-3.5-1.42v1.54c.78.11 1.49.46 2.3 1.09z" />
+                    </svg>
+                    <svg viewBox="0 0 24 24" class="music-icon icon-on hidden" id="music-icon-on">
+                        <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6zm-2 16c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z" />
+                    </svg>
+                </div>
+                <div class="music-widget-preview" id="music-toggle-dropdown">
+                    <span>Música</span>
+                    <svg viewBox="0 0 24 24" class="chevron-icon" id="music-chevron"><path d="M7 10l5 5 5-5z" fill="currentColor"/></svg>
+                </div>
+            </div>
+            
+            <div class="music-dropdown" id="music-dropdown">
+                <div class="music-dropdown-content">
+                    <div class="music-cover-container">
+                        <img id="music-cover" src="" alt="Album Cover" class="hidden">
+                        <div id="music-cover-placeholder" class="music-cover-placeholder">
+                            <svg viewBox="0 0 24 24" class="vinyl-icon"><circle cx="12" cy="12" r="10" fill="#222" stroke="#444" stroke-width="2"/><circle cx="12" cy="12" r="3" fill="#ffb703"/><circle cx="12" cy="12" r="1" fill="#111"/></svg>
+                        </div>
+                    </div>
+                    <div class="music-info-container">
+                        <div class="marquee-container" id="marquee-container">
+                            <div class="marquee-content" id="music-title">Instrumental Romántico</div>
+                        </div>
+                        <div class="volume-control">
+                            <svg viewBox="0 0 24 24" class="volume-icon"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" fill="currentColor"/></svg>
+                            <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.5">
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- HTML5 Audio Element (soft piano instrumental background) -->
@@ -78,6 +106,6 @@
         </audio>
     </main>
 
-    <script src="app.js?v=5"></script>
+    <script src="app.js?v=6"></script>
 </body>
 </html>

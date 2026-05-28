@@ -11,10 +11,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const letterDate = document.getElementById('letter-date');
     const letterText = document.getElementById('letter-text');
     const flowersContainer = document.getElementById('flowers-container');
-    const musicBtn = document.getElementById('music-btn');
     const ambientAudio = document.getElementById('ambient-audio');
+    
+    // Music Widget Elements
+    const musicWidget = document.getElementById('music-widget');
+    const musicToggleDropdown = document.getElementById('music-toggle-dropdown');
+    const musicPlayBtn = document.getElementById('music-play-btn');
     const musicIconOff = document.getElementById('music-icon-off');
     const musicIconOn = document.getElementById('music-icon-on');
+    const musicCover = document.getElementById('music-cover');
+    const musicCoverPlaceholder = document.getElementById('music-cover-placeholder');
+    const musicTitle = document.getElementById('music-title');
+    const marqueeContainer = document.getElementById('marquee-container');
+    const volumeSlider = document.getElementById('volume-slider');
+
     const canvas = document.getElementById('particle-canvas');
     const ctx = canvas.getContext('2d');
 
@@ -49,17 +59,27 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
 
     const flowerThemesList = ['roses', 'sunflowers', 'daisies', 'tulips', 'cherry_blossoms'];
+    
+    const fallbackPlaylists = [
+        { title: "Romantic Piano - SoundHelix", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3", cover: "" },
+        { title: "Sweet Melody - SoundHelix", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3", cover: "" },
+        { title: "Gentle Night - SoundHelix", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3", cover: "" }
+    ];
 
     // Select deterministic fallback based on day of year
     const dayOfYear = getDayOfYear(new Date());
     const fallbackMessage = fallbackMessages[dayOfYear % fallbackMessages.length];
     const fallbackTheme = flowerThemesList[dayOfYear % flowerThemesList.length];
+    const fallbackSong = fallbackPlaylists[dayOfYear % fallbackPlaylists.length];
 
     // Default configuration if daily.json is missing or failed
     let config = {
         message: fallbackMessage,
         flowerTheme: fallbackTheme,
-        colorScheme: getDeterministicColorScheme(fallbackTheme, seededRandom)
+        colorScheme: getDeterministicColorScheme(fallbackTheme, seededRandom),
+        songTitle: fallbackSong.title,
+        songUrl: fallbackSong.url,
+        songCover: fallbackSong.cover
     };
 
     // Attempt to load daily.json
@@ -78,6 +98,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 } else {
                     config.colorScheme = getDeterministicColorScheme(config.flowerTheme, seededRandom);
                 }
+                
+                // Audio override if present in daily.json
+                if (data.songTitle) config.songTitle = data.songTitle;
+                if (data.songUrl) config.songUrl = data.songUrl;
+                if (data.songCover) config.songCover = data.songCover;
             }
             initApp();
         })
@@ -90,6 +115,26 @@ document.addEventListener('DOMContentLoaded', () => {
     function initApp() {
         // Update Letter Text
         letterText.textContent = config.message;
+        
+        // Setup Music Player
+        musicTitle.textContent = config.songTitle;
+        ambientAudio.src = config.songUrl;
+        
+        if (config.songCover) {
+            musicCover.src = config.songCover;
+            musicCover.classList.remove('hidden');
+            musicCoverPlaceholder.classList.add('hidden');
+        } else {
+            musicCover.classList.add('hidden');
+            musicCoverPlaceholder.classList.remove('hidden');
+        }
+
+        // Check if marquee is needed (text wider than container)
+        setTimeout(() => {
+            if (musicTitle.scrollWidth > marqueeContainer.clientWidth) {
+                marqueeContainer.classList.add('scrolling');
+            }
+        }, 100);
         
         // Generate Procedural Garden based on theme and seed
         generateProceduralGarden(config.flowerTheme, config.colorScheme);
@@ -122,8 +167,19 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    musicBtn.addEventListener('click', () => {
+    // Toggle Dropdown Menu
+    musicToggleDropdown.addEventListener('click', () => {
+        musicWidget.classList.toggle('expanded');
+    });
+
+    // Play/Pause Button
+    musicPlayBtn.addEventListener('click', () => {
         toggleMusic(!isMusicPlaying);
+    });
+
+    // Volume Slider
+    volumeSlider.addEventListener('input', (e) => {
+        ambientAudio.volume = e.target.value;
     });
 
     function toggleMusic(play) {
@@ -132,7 +188,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 isMusicPlaying = true;
                 musicIconOff.classList.add('hidden');
                 musicIconOn.classList.remove('hidden');
-                musicBtn.style.background = 'rgba(255, 117, 143, 0.4)';
+                musicWidget.classList.add('playing');
             }).catch(e => {
                 console.log("La reproducción automática de audio requiere interacción del usuario.");
             });
@@ -141,7 +197,7 @@ document.addEventListener('DOMContentLoaded', () => {
             isMusicPlaying = false;
             musicIconOff.classList.remove('hidden');
             musicIconOn.classList.add('hidden');
-            musicBtn.style.background = 'rgba(255, 255, 255, 0.1)';
+            musicWidget.classList.remove('playing');
         }
     }
 
