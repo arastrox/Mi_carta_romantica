@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const waxSeal = document.getElementById('wax-seal');
     const letterDate = document.getElementById('letter-date');
     const letterText = document.getElementById('letter-text');
+    const letter = document.getElementById('letter');
     const flowersContainer = document.getElementById('flowers-container');
     const ambientAudio = document.getElementById('ambient-audio');
     
@@ -154,9 +155,20 @@ document.addEventListener('DOMContentLoaded', () => {
         openEnvelope();
     });
 
+    letter.addEventListener('click', (e) => {
+        if (isOpened) {
+            e.stopPropagation();
+            closeEnvelope();
+        }
+    });
+
     function openEnvelope() {
         if (isOpened) return;
         isOpened = true;
+        
+        // Ensure no closing artifacts
+        envelopeWrapper.classList.remove('closing');
+        
         envelopeWrapper.classList.add('open');
         document.body.classList.add('letter-open');
 
@@ -164,6 +176,20 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!isMusicPlaying) {
             toggleMusic(true);
         }
+    }
+
+    function closeEnvelope() {
+        if (!isOpened) return;
+        isOpened = false;
+        
+        envelopeWrapper.classList.remove('open');
+        envelopeWrapper.classList.add('closing');
+        
+        // Remove the closing class and body open class after animation ends
+        setTimeout(() => {
+            envelopeWrapper.classList.remove('closing');
+            document.body.classList.remove('letter-open');
+        }, 1800); // 1.8s matches the pullOutAndDrop duration
     }
 
     // Toggle Dropdown Menu
