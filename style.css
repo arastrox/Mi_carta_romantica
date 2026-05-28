@@ -3,7 +3,7 @@
    ========================================================================== */
 :root {
     --bg-dark: #0a0b10;
-    --bg-gradient: radial-gradient(circle at center, #200f24 0%, #15102a 50%, #0b0c16 100%);
+    --bg-gradient: url('sergeigussev-misty-12749.gif') center/cover no-repeat;
     --envelope-color: #8b263e;
     --envelope-color-dark: #661b2d;
     --envelope-color-light: #ab334f;
