@@ -59,11 +59,10 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
 
     const flowerThemesList = ['roses', 'sunflowers', 'daisies', 'tulips', 'cherry_blossoms'];
-    
     const fallbackPlaylists = [
-        { title: "Romantic Piano - SoundHelix", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3", cover: "" },
-        { title: "Sweet Melody - SoundHelix", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3", cover: "" },
-        { title: "Gentle Night - SoundHelix", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3", cover: "" }
+        { title: "Mellow Summer Folk - Alex Kizenkov", url: "mellow-summer-folk.mp3", cover: "" },
+        { title: "Aesthetics - SoulProdMusic", url: "aesthetics.mp3", cover: "" },
+        { title: "Lofi Lax - ChillBeat", url: "lofi-lax.mp3", cover: "" }
     ];
 
     // Select deterministic fallback based on day of year
