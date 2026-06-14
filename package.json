@@ -1,20 +1,12 @@
 {
   "name": "mi-carta-romantica",
-  "version": "2.0.0",
+  "version": "1.0.0",
   "description": "Una Cartita Especial Para Ti ❤️",
-  "type": "module",
+  "main": "app.js",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
-    "optimize:assets": "node scripts/optimize-assets.js"
+    "start": "npx serve .",
+    "dev": "npx serve ."
   },
-  "author": "Pablo",
-  "license": "ISC",
-  "devDependencies": {
-    "@sveltejs/vite-plugin-svelte": "^5.0.3",
-    "sharp": "^0.33.5",
-    "svelte": "^5.19.0",
-    "vite": "^6.0.7"
-  }
+  "author": "",
+  "license": "ISC"
 }
