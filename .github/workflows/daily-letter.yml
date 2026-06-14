@@ -1,0 +1,61 @@
+name: Daily letter
+
+# Genera el mensaje del día, lo commitea y avisa por WhatsApp.
+# El commit a main hace que "Deploy a GitHub Pages" se ejecute (vía workflow_run)
+# y redespliegue el sitio. No se necesita ningún PAT: usa el GITHUB_TOKEN.
+
+on:
+  schedule:
+    # 12:00 UTC ≈ 08:00 en Chile (UTC-4); en horario de verano será ~09:00.
+    - cron: '0 12 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: daily-letter
+  cancel-in-progress: false
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Generar daily.json
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: node scripts/generate-daily.js
+
+      - name: Commitear si cambió
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/daily.json
+          if git diff --staged --quiet; then
+            echo "Sin cambios en daily.json"
+          else
+            git commit -m "Actualización diaria de carta romántica"
+            git push
+          fi
+
+      - name: Avisar por WhatsApp (Twilio)
+        continue-on-error: true
+        env:
+          TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
+          TWILIO_AUTH_TOKEN: ${{ secrets.TWILIO_AUTH_TOKEN }}
+        run: |
+          if [ -z "$TWILIO_ACCOUNT_SID" ] || [ -z "$TWILIO_AUTH_TOKEN" ]; then
+            echo "Twilio no configurado: omito el aviso por WhatsApp."
+            exit 0
+          fi
+          curl -sS -X POST "https://api.twilio.com/2010-04-01/Accounts/${TWILIO_ACCOUNT_SID}/Messages.json" \
+            --data-urlencode "To=whatsapp:+56961562990" \
+            --data-urlencode "From=whatsapp:+14155238886" \
+            --data-urlencode "Body=Para Mitsy, mi amor de ayer, hoy y mañana, Con amor Pablo ♥ https://arastrox.github.io/Mi_carta_romantica" \
+            -u "${TWILIO_ACCOUNT_SID}:${TWILIO_AUTH_TOKEN}"
