@@ -1,0 +1,11 @@
+# Normaliza todo el texto a LF en el repositorio (evita que los scripts bash de
+# los workflows se rompan en el runner Linux por culpa de CRLF en Windows).
+* text=auto eol=lf
+
+# Binarios: que git no los toque.
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.webp binary
+*.mp3  binary

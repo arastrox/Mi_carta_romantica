@@ -1,0 +1,7 @@
+node_modules
+dist
+.DS_Store
+*.local
+
+# Fuentes de imagen sin optimizar (la versión .webp vive en public/bg)
+assets-src
